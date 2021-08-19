@@ -2,9 +2,9 @@
 #include<conio.h>
 #include<stdlib.h>
  
-int max = 4;          /* determines the maximum capacity of Hash Table array */
+int max = 4;          /* determines the number of columns in the hash table */
 int size = 0;          /* determines the number of elements present in Hash Table */
-/* node for storing an item in a Binary Tree */
+/* node for storing an element in a Binary Tree */
 struct node 
 {
 	int key;
@@ -149,7 +149,7 @@ void display_tree(struct node *tree)
         {
         	return;
     	}
-    	printf("%d and %d \t", tree->key, tree->value);
+    	printf("key=%d,value=%d \t", tree->key, tree->value);
  
     	if (tree->left != NULL)
         {
@@ -253,9 +253,9 @@ void main()
 	do {
 		printf("Implementation of Hash Table in C chaining with Binary Trees\n\n");
 		printf("MENU-: \n1.Insert an item in the Hash Table" 
-                              "\n2.Remove an item from the Hash Table" 
-                              "\n3.Check the size of Hash Table" 
-                              "\n4.Display Hash Table"
+                              "\n2.delete an item from the Hash Table" 
+                              "\n3.get the size of Hash Table" 
+                              "\n4.Display the contents of Hash Table"
 		       "\n\n Please enter your choice-:");
  		scanf("%d", &choice);
 		switch(choice) 
