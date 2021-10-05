@@ -1,168 +1,116 @@
+//Creating and searching for contacts in a phonebook using trie trees
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// Alphabet size (# of symbols)
+#define alphasize (26)
+// Converts key current character into ind
+// use only 'a' through 'z' and lower case
+#define chartoind(c) ((int)c - (int)'a')
+// creating a trie node
+struct TrieNode
+{
+ struct TrieNode *children[alphasize];
 
-#define SIZE 10
-
-struct hash {
-char name[20];
-float marks;
-int class;
-struct hash* ptr;
+ unsigned long long number;
+ // is_end_of_word will be true if the node represents end of a word
+ int is_end_of_word;
 };
-
-struct hash *DICT[SIZE];
-
-void makenull()
+// Returns new trie node (initialized to NULLs)
+struct TrieNode *getNode(void)
 {
-int i;
-
- for(i=1; i<=SIZE; i++)
+ struct TrieNode *node = NULL;
+ node = (struct TrieNode *)malloc(sizeof(struct TrieNode));
+ if(node!=NULL)
  {
-  DICT[i]=NULL; 
- }
-}
-
-
-int hash(int class)
-{
- return(class%SIZE);
-}
-
-void insert()
-{
-
-char nam[20];
-float mar;
-int cl,i,index;
-struct hash *oldptr;
-
-printf("Enter the student name\n");
- scanf("%s",nam);
-
-printf("Enter the marks\n");
- scanf("%f", &mar);
-
-printf("Enter the class\n");
- scanf("%d",&cl);
- index=hash(cl);
- oldptr = DICT[index];
- DICT[index]= (struct hash *) malloc(sizeof (struct hash));
-// DICT[index]->name[20]=nam[20];
- strcpy(DICT[index]->name, nam);
- DICT[index]->marks=mar;
- DICT[index]->class=cl;
- DICT[index]->ptr=oldptr;
-}
-void display()
-{
-int index,class,count;
-struct hash *head;
-printf("Enter the students class to display\n");
-scanf("%d",&class);
-count=0;
-index=hash(class);
-head= DICT[index];
-while (head != NULL)
-{
- printf("Name: %s\n",head->name);
- printf("Class: %d\n", head->class);
- printf("Marks: %f\n\n", head->marks);
- count++;
- head = head->ptr;
-}
-printf("The count of students in this class are: %d\n", count);
-}
-void search()
-{
-int index,class;
-char ename[20];
-struct hash *head;
-printf("Enter the students class to display\n");
-scanf("%d",&class);
-index=hash(class);
-head= DICT[index];
-printf("Enter the student's name to be searched\n");
-scanf("%s",ename);
-while (head != NULL )
-{
- if(! strcmp(head->name, ename))
+ int i;
+ node->is_end_of_word = 0;
+ for (i = 0; i < alphasize; i++)
  {
-  printf("The name is: %s\n",head->name);
-  printf("The class is: %d\n", head->class);
-  printf("The marks are: %f\n", head->marks);
-  break;
+ node->children[i] = NULL;
  }
- else{
-  if (head != NULL)
-  {
-  head=head->ptr;
-  }
-  else
-  printf("Student not found\n");
-     }
+ }
+ return node;
 }
-}
-void high()
+//Inserting a key into trie
+// If not present, inserts key into trie
+// If the key is prefix of trie node, just mark it the leaf node
+void insert(struct TrieNode *root, const char *key)
 {
-int index,class;
-float high;
-struct hash *head;
-printf("Enter the students class to check marks\n");
-scanf("%d",&class);
-index=hash(class);
-head= DICT[index];
-while (head != NULL)
-{
- if(head->ptr != NULL)
+ int level;
+ int l = strlen(key);
+ int ind;
+ struct TrieNode *newnode = root;
+ for (level = 0; level < l; level++)
  {
-  if((head->marks) > (head->ptr->marks))
-  {
-   high=head->marks;
-  }
-  else
-  {
-   high=head->ptr->marks;
-  }
+ ind = chartoind(key[level]);
+ if (!newnode->children[ind])
+ newnode->children[ind] = getNode();
+ newnode = newnode->children[ind];
  }
- if(head->ptr != NULL)
-  head=head->ptr;
- else{
- printf("The highest marks in the class are: %f\n", high);
+ // mark the last node as leaf
+ newnode->is_end_of_word = 1;
+ printf("Enter the number:");
+ scanf("%llu", &newnode->number);
+}
+int search(struct TrieNode *root, const char *key)
+{
+ int level;
+ int length = strlen(key);
+ int index;
+ struct TrieNode *newnode = root;
+ for (level = 0; level < length; level++)
+ {
+ index =chartoind(key[level]);
+ if (!newnode->children[index])
+ return 0;
+ newnode=newnode->children[index];
+ }
+ return (newnode->number);
+}
+
+// Main program to apply insert and search in a menu driven approach
+int main()
+{
+int n1,i1,ch,hi;
+char name[100];
+char keys[100];
+
+struct TrieNode *root;
+root = getNode();
+do
+{
+ printf("Enter\n1 for Create a New Contact\n2 for Search For a Contact\n3 for exit\n");
+ printf("Please Enter Your Choice: ");
+ scanf("%d",&ch);
+switch(ch)
+{
+case 1:
+printf("Enter the number of contacts to be updated in PhoneBook:");
+scanf("%d",&n1);
+for(i1=0;i1<n1;i1++)
+{
+printf("Enter the name of the Person: ");
+scanf("%s",keys);
+//duplicate(root,keys);
+insert(root, keys);
+}
  break;
- }
- }
-}
-int main ()
-{
-int num,i,choice;
-printf("Enter the number of students' details you want to enter\n");
-scanf("%d",&num);
- makenull();
- for(i=0; i<num; i++)
- {
-  insert();
- }
-printf("Enter your choice\n");
-printf("1->Display\n2->Search \n3->Find Highest\n4->Exit\n");
-scanf("%d",&choice);
-while(choice!=4)
-{
-switch(choice)
-{
- case 1: display();
-  break;
- case 2: search();
-  break;
- case 3: high();
-  break;
- case 4: exit(0);
-}
-printf("Enter your choice\n");
-printf("1->Display\n2->Search \n3->Find Highest\n4->Exit\n");
-scanf("%d",&choice);
-}
-return 0;
-}
+ case 2:
+ printf("Enter the number of persons to be searched in Phonebook: ");
+ scanf("%d",&hi);
 
- 
+ for(i1=0;i1<hi;i1++)
+ {
+ printf("Enter the name to be Searched: ");
+scanf("%s",name);
+ printf("number is %d\n",search(root,name));
+}
+break;
+case 3:
+exit(0);
+default:
+printf("Invalid Choice\n");
+}
+}while(ch<=2);
+ return 0; }
