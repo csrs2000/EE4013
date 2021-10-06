@@ -1,6 +1,7 @@
 \documentclass[journal,12pt,twocolumn]{IEEEtran}
 
 \usepackage{setspace}
+\usepackage{tabularx}
 \usepackage{gensymb}
 \singlespacing
 \usepackage[cmex10]{amsmath}
@@ -139,6 +140,108 @@ Download all latex-tikz codes from
 \begin{lstlisting}
 https://github.com/csrs2000/EE4013/blob/main/Assignment-1/Assignment1.tex
 \end{lstlisting}
+\section{\textbf{Hash Table}}
+\subsection{\textbf{Hashing}}
+\begin{itemize}
+\item Hashing is the process of mapping large amount of data item to smaller table with the help of hashing function.
+\item It is a technique to convert a range of key values into a range of indexes of an array.
+\item It is used to facilitate the next level searching method when compared with the linear or binary search.
+\item Hashing allows to update and retrieve any data entry in a constant time O(1).
+\item Constant time O(1) means the operation does not depend on the size of the data.
+\item Hashing is used with a database to enable items to be retrieved more quickly.
+\end{itemize}
+\subsection{\textbf{Hash Function}}
+\begin{itemize}
+\item A fixed process converts a key to a hash key is known as a Hash Function.
+\item This function takes a key and maps it to a value of a certain length which is called a Hash value or Hash.
+\end{itemize}
+\subsection{\textbf{Hash Table}}
+\begin{itemize}
+\item Hash table or hash map is a data structure used to store key-value pairs.
+\item It is a collection of items stored to make it easy to find them later.
+\item It uses a hash function to compute an index into an array of buckets or slots from which the desired value can be found.
+\item Hashing is a technique to convert a range of key values into a range of indexes of an array. We're going to use modulo operator to get a range of key values. Consider an example of the below hash table which is stored in an array of size 20,and the following items are to be stored in the (key,value) format.\\
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+Key  & Hash & Array Index \\
+\hline
+2  & 2\%20 & 2 \\
+1  & 1\%20 & 1 \\
+42  & 42\%20 & 2 \\
+14  & 14\%20 & 14 \\
+ \hline
+\end{tabular}
+\end{center}
+\medskip
+\item \textbf{Linear Probing}: As we can see, it may happen that the hashing technique is used to create an already used index of the array. In such a case, we can search the next empty location in the array by looking into the next cell until we find an empty cell. This technique is called linear probing.
+In the below example we obtain new array indices after linear probing
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+Key  & Hash & Array Index after linear probing\\
+\hline
+2  & 2\%20 & 2 \\
+1  & 1\%20 & 1 \\
+42  & 42\%20 & 3 \\
+14  & 14\%20 & 14 \\
+ \hline
+\end{tabular}
+\end{center}
+\end{itemize}
+\subsection{\textbf{Operations in Hash Table}}
+Following are the basic primary operations of a hash table.\\
+\begin{itemize}
+\item Search: Searches an element in a hash table.
+\item Insert: inserts an element in a hash table.
+\item delete: Deletes an element from a hash table.
+\end{itemize}
+\textbf{Search Operation}:
+Whenever an element is to be searched, compute the hash code of the key passed and locate the element using that hash code as index in the array. Use linear probing to get the element ahead if the element is not found at the computed hash code.
+\\
+\textbf{Insert Operation}:
+Whenever an element is to be inserted, compute the hash code of the key passed and locate the index using that hash code as an index in the array. Use linear probing for empty location, if an element is found at the computed hash code.\\
+\textbf{Delete Operation}:
+Whenever an element is to be deleted, compute the hash code of the key passed and locate the index using that hash code as an index in the array. Use linear probing to get the element ahead if an element is not found at the computed hash code. When found, store a dummy item there to keep the performance of the hash table intact.\\
+below table shows the time complexity of hash table operations 
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+Algorithm  & Average case& Worst case \\
+\hline
+search  &O(1) & O(N) \\
+insert  & O(1) & O(N) \\
+delete  & O(1) & O(N) \\
+ \hline
+\end{tabular}
+\end{center}
+
+\subsection{\textbf{Application of Hash Table}}
+Let us look at the example of phonebook to understand how hash table can be used\\
+Using the Hash Table we can implement following functions of Phone directory.
+each record consists of ID, Name, Telephone number.
+\begin{itemize}
+\item \textbf{Create Record}:This method takes details from the user like Name and Telephone number and create new record in the hash table.
+\item \textbf{Display Record}:This method displays all the existing records in the phone book
+\item \textbf{Search Record}:This method takes the id of the record and prints the name and phone number in the book
+\item \textbf{update Record}:This method takes the ID of the record and updates the name and phone number with new values.
+\item \textbf{Delete Record}:This method takes the key of the record and deletes the record.
+\end{itemize}
+
+\textbf{Approach}
+\\
+We  create a hash table, For inserting records,deleting, searching, or updating an entity, the User ID is asked and on the basis of request,details are displayed or processed. If the record is not found, then an appropriate message is displayed.\\
+Collision is the major problem in the hashing technique.
+When a collision occurs, the details are searched for an open or unoccupied element using linear probing.
+Steps for inserting entities in a hash table:
+\begin{itemize}
+\item If the location is empty, directly insert the entity.
+\item If mapped location is occupied then keep probing until an empty slot is found. Once an empty slot is found, insert the entity.
+\end{itemize}
+Below C++ Program implements the  phone book using hashing
+\begin{lstlisting}
+https://github.com/csrs2000/EE4013/blob/main/Assignment-1/codes/phonebook.cpp
+\end{lstlisting}
 \section{Problem}
 Consider a dynamic hashing approach for 4-bit integer keys:\\
 1)There is a main hash table of size 4.\\
@@ -154,9 +257,9 @@ Which of the following sequences of key insertions can cause the above state of 
 (A) 5,9,4,13,10,7\\
 (B) 9,5,10,6,7,1\\
 (C) 10,9,6,7,5,13\\
-(D) 9,5,13,6,10,14\\
+(D) 9,5,13,6,10,14
 
-\section{Solution}
+\subsection{Solution}
 \textbf{Answer}:Option-(C)
 \\
 \textbf{Explanation}\\
