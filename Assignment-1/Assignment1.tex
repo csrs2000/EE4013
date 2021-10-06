@@ -136,7 +136,6 @@ Download all Codes from
 https://github.com/csrs2000/EE4013/blob/main/Assignment-1/codes
 \end{lstlisting}
 Download all latex-tikz codes from 
-
 \begin{lstlisting}
 https://github.com/csrs2000/EE4013/blob/main/Assignment-1/Assignment1.tex
 \end{lstlisting}
@@ -215,7 +214,6 @@ delete  & O(1) & O(N) \\
  \hline
 \end{tabular}
 \end{center}
-
 \subsection{\textbf{Application of Hash Table}}
 Let us look at the example of phonebook to understand how hash table can be used\\
 Using the Hash Table we can implement following functions of Phone directory.
@@ -227,7 +225,6 @@ each record consists of ID, Name, Telephone number.
 \item \textbf{update Record}:This method takes the ID of the record and updates the name and phone number with new values.
 \item \textbf{Delete Record}:This method takes the key of the record and deletes the record.
 \end{itemize}
-
 \textbf{Approach}
 \\
 We  create a hash table, For inserting records,deleting, searching, or updating an entity, the User ID is asked and on the basis of request,details are displayed or processed. If the record is not found, then an appropriate message is displayed.\\
@@ -238,10 +235,59 @@ Steps for inserting entities in a hash table:
 \item If the location is empty, directly insert the entity.
 \item If mapped location is occupied then keep probing until an empty slot is found. Once an empty slot is found, insert the entity.
 \end{itemize}
+example- lets consider a phonebook of size 4 which is shown below\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ID&Array Index&Name&Phone no\\
+\hline 
+1234&1234\%4=2&A&9199999999\\
+3122&3121\%4=1&B&9199999911\\
+ \hline
+\end{tabular}
+\end{center}
+\textbf{create record}: now for example lets say the phone book takes ID=1122,Name=C,Phone no=9381261459 as inputs for creating new record then the phonebook gets updated as follows,we can clearly see that to avoid collision linear probing allocates index no-3 which is the next available slot  -
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ID&Array Index&Name&Phone no\\
+\hline 
+1234&1234\%4=2&A&9199999999\\
+3122&3121\%4=1&B&9199999911\\
+1122&1122\%4=2 but index=3&C&9381261459\\
+ \hline
+\end{tabular}
+\end{center}
+\textbf{update  record}: now for example lets say the phone book takes ID=1122,Name=C,Phone no=9111111459 as inputs for updating existing record then the phonebook gets updated as follows-
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ID&Array Index&Name&Phone no\\
+\hline 
+1234&1234\%4=2&A&9199999999\\
+3122&3121\%4=1&B&9199999911\\
+1122&1122\%4=2 but index=3&C&9111111459\\
+ \hline
+\end{tabular}
+\end{center}
+\textbf{Delete record}: now for example lets say the phone book takes ID=3121,Name=B as inputs for deleting a record then the phonebook gets updated as follows
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ID&Array Index&Name&Phone no\\
+\hline 
+1234&1234\%4=2&A&9199999999\\
+1122&1122\%4=2 but index=3&C&9381261459\\
+ \hline
+\end{tabular}
+\end{center}
+
+
 Below C++ Program implements the  phone book using hashing
 \begin{lstlisting}
 https://github.com/csrs2000/EE4013/blob/main/Assignment-1/codes/phonebook.cpp
 \end{lstlisting}
+\pagebreak
 \section{Problem}
 Consider a dynamic hashing approach for 4-bit integer keys:\\
 1)There is a main hash table of size 4.\\
@@ -258,7 +304,6 @@ Which of the following sequences of key insertions can cause the above state of 
 (B) 9,5,10,6,7,1\\
 (C) 10,9,6,7,5,13\\
 (D) 9,5,13,6,10,14
-
 \subsection{Solution}
 \textbf{Answer}:Option-(C)
 \\
@@ -272,6 +317,4 @@ Below C-Program implements the above described dynamic 4 bit hashing table
 \begin{lstlisting}
 https://github.com/csrs2000/EE4013/blob/main/Assignment-1/codes/hashtable.c
 \end{lstlisting}
-
-
 \end{document}
